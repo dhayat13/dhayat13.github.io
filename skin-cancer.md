@@ -24,8 +24,32 @@ files.upload()
 ! cp kaggle.json ~/.kaggle/
 ! chmod 600 ~/.kaggle/kaggle.json
 ! kaggle datasets download -d kmader/skin-cancer-mnist-ham10000
+Downloading skin-cancer-mnist-ham10000.zip to /content
+100% 5.20G/5.20G [01:49<00:00, 20.7MB/s]
+100% 5.20G/5.20G [01:49<00:00, 50.9MB/s]
 ! mkdir skin_cancer
 ! unzip skin-cancer-mnist-ham10000.zip -d skin_cancer
+Streaming output truncated to the last 5000 lines.
+  inflating: skin_cancer/ham10000_images_part_2/ISIC_0029326.jpg  
+  inflating: skin_cancer/ham10000_images_part_2/ISIC_0029327.jpg  
+  inflating: skin_cancer/ham10000_images_part_2/ISIC_0029328.jpg  
+  inflating: skin_cancer/ham10000_images_part_2/ISIC_0029329.jpg  
+  inflating: skin_cancer/ham10000_images_part_2/ISIC_0029330.jpg  
+  inflating: skin_cancer/ham10000_images_part_2/ISIC_0029331.jpg  
+  inflating: skin_cancer/ham10000_images_part_2/ISIC_0029332.jpg  
+  inflating: skin_cancer/ham10000_images_part_2/ISIC_0029333.jpg  
+  inflating: skin_cancer/ham10000_images_part_2/ISIC_0029334.jpg  
+  inflating: skin_cancer/ham10000_images_part_2/ISIC_0029335.jpg  
+  inflating: skin_cancer/ham10000_images_part_2/ISIC_0029336.jpg  
+  inflating: skin_cancer/ham10000_images_part_2/ISIC_0029337.jpg  
+  inflating: skin_cancer/ham10000_images_part_2/ISIC_0029338.jpg  
+  inflating: skin_cancer/ham10000_images_part_2/ISIC_0029339.jpg  
+  inflating: skin_cancer/ham10000_images_part_2/ISIC_0029340.jpg  
+  inflating: skin_cancer/ham10000_images_part_2/ISIC_0029341.jpg  
+  inflating: skin_cancer/ham10000_images_part_2/ISIC_0029342.jpg  
+  inflating: skin_cancer/ham10000_images_part_2/ISIC_0029343.jpg  
+  inflating: skin_cancer/ham10000_images_part_2/ISIC_0029344.jpg 
+  
 !rm -r /content/skin_cancer/ham10000_images_part_1
 !rm -r /content/skin_cancer/ham10000_images_part_2
 ```
@@ -94,4 +118,68 @@ skin_df['cell_type'] = skin_df['dx'].map(lesion_type_dict.get)
 skin_df['cell_type_idx'] = pd.Categorical(skin_df['cell_type']).codes
 # Now lets see the sample of tile_df to look on newly made columns
 skin_df.head()
+```
+# Step 4 : Reading & Processing data
+In this step we have read the csv by joining the path of image folder which is the base folder where all the images are placed named base_skin_dir. After that we made some new columns which is easily understood for later reference such as we have made column path which contains the image_id, cell_type which contains the short name of lesion type and at last we have made the categorical column cell_type_idx in which we have categorize the lesion type in to codes from 0 to 6
+
+skin_df = pd.read_csv(os.path.join(dataset_dir, 'HAM10000_metadata.csv'))
+
+- Creating New Columns for better readability
+```python
+skin_df['path'] = skin_df['image_id'].map(imageid_path_dict.get)
+skin_df['cell_type'] = skin_df['dx'].map(lesion_type_dict.get) 
+skin_df['cell_type_idx'] = pd.Categorical(skin_df['cell_type']).codes
+# Now lets see the sample of tile_df to look on newly made columns
+skin_df.head()
+
+lesion_id	image_id	dx	dx_type	age	sex	localization	path	cell_type	cell_type_idx
+0	HAM_0000118	ISIC_0027419	bkl	histo	80.0	male	scalp	/content/skin_cancer/HAM10000_images_part_1/IS...	Benign keratosis-like lesions	2
+1	HAM_0000118	ISIC_0025030	bkl	histo	80.0	male	scalp	/content/skin_cancer/HAM10000_images_part_1/IS...	Benign keratosis-like lesions	2
+2	HAM_0002730	ISIC_0026769	bkl	histo	80.0	male	scalp	/content/skin_cancer/HAM10000_images_part_1/IS...	Benign keratosis-like lesions	2
+3	HAM_0002730	ISIC_0025661	bkl	histo	80.0	male	scalp	/content/skin_cancer/HAM10000_images_part_1/IS...	Benign keratosis-like lesions	2
+4	HAM_0001466	ISIC_0031633	bkl	histo	75.0	male	ear	/content/skin_cancer/HAM10000_images_part_2/IS...	Benign keratosis-like lesions	2
+```
+
+# Step 5 : Data Cleaning
+In this step we check for Missing values and datatype of each field
+```python
+skin_df.isnull().sum()
+lesion_id         0
+image_id          0
+dx                0
+dx_type           0
+age              57
+sex               0
+localization      0
+path              0
+cell_type         0
+cell_type_idx     0
+dtype: int64
+
+skin_df['age'].fillna((skin_df['age'].mean()), inplace=True)
+skin_df.isnull().sum()
+lesion_id        0
+image_id         0
+dx               0
+dx_type          0
+age              0
+sex              0
+localization     0
+path             0
+cell_type        0
+cell_type_idx    0
+dtype: int64
+
+skin_df.dtypes
+lesion_id         object
+image_id          object
+dx                object
+dx_type           object
+age              float64
+sex               object
+localization      object
+path              object
+cell_type         object
+cell_type_idx       int8
+dtype: object
 ```
