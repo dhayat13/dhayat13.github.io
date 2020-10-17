@@ -16,7 +16,7 @@ We will move step by step process to classify 7 classes of cancer.
 
 # First Step
 in this step i will install extension Kaggle on google colab because i need to download the dataset from Kaggle datasets.
-
+```python
 ! pip install -q kaggle
 from google.colab import files
 files.upload()
@@ -56,3 +56,4 @@ from keras.optimizers import Adam, SGD
 from keras.preprocessing.image import ImageDataGenerator
 from keras.callbacks import ReduceLROnPlateau
 from sklearn.model_selection import train_test_split
+```
