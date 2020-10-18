@@ -1,3 +1,4 @@
+# SKIN CANCER CLASSIFICATION DEEP LEARNING WITH CNN MODEL
 Skin cancer is the most common human malignancy, is primarily diagnosed visually, beginning with an initial clinical screening and followed potentially by dermoscopic analysis, a biopsy and histopathological examination. Automated classification of skin lesions using images is a challenging task owing to the fine-grained variability in the appearance of skin lesions.
 
 This the HAM10000 ("Human Against Machine with 10000 training images") dataset.It consists of 10015 dermatoscopicimages which are released as a training set for academic machine learning purposes and are publiclyavailable through the ISIC archive. This benchmark dataset can be used for machine learning and for comparisons with human experts.
@@ -182,4 +183,14 @@ path              object
 cell_type         object
 cell_type_idx       int8
 dtype: object
+```
+
+# Step 6 : EDA
+In this we will explore different features of the dataset , their distrubtions and actual counts
+
+Plot to see distribution of 7 different classes of cell type
+```python
+fig, ax1 = plt.subplots(1, 1, figsize= (10, 5))
+skin_df['cell_type'].value_counts().plot(kind='bar', ax=ax1)
+![cell_type plot](https://github.com/dhayat13/dhayat13.github.io/blob/main/images_plot/gambar%20github%20pages/cell%20type%20plot.png)
 ```
