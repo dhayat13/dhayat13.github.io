@@ -192,5 +192,19 @@ Plot to see distribution of 7 different classes of cell type
 ```python
 fig, ax1 = plt.subplots(1, 1, figsize= (10, 5))
 skin_df['cell_type'].value_counts().plot(kind='bar', ax=ax1)
-
 ```
+![cell type plot](https://user-images.githubusercontent.com/72849717/96358211-dbe02600-112e-11eb-862a-c1e195939769.png)
+
+Its seems from the above plot that in this dataset cell type Melanecytic nevi has very large number of instances in comparison to other cell types
+
+Plotting of Technical Validation field (ground truth) which is dx_type to see the distribution of its 4 categories which are listed below :
+1. Histopathology(Histo): Histopathologic diagnoses of excised lesions have been performed by specialized dermatopathologists.
+2. Confocal: Reflectance confocal microscopy is an in-vivo imaging technique with a resolution at near-cellular level , and some facial benign with a grey-world assumption of all training-set images in Lab-color space before and after manual histogram changes.
+3. Follow-up: If nevi monitored by digital dermatoscopy did not show any changes during 3 follow-up visits or 1.5 years biologists accepted this as evidence of biologic benignity. Only nevi, but no other benign diagnoses were labeled with this type of ground-truth because dermatologists usually do not monitor dermatofibromas, seborrheic keratoses, or vascular lesions.
+4. Consensus: For typical benign cases without histopathology or followup biologists provide an expert-consensus rating of authors PT and HK. They applied the consensus label only if both authors independently gave the same unequivocal benign diagnosis. Lesions with this type of groundtruth were usually photographed for educational reasons and did not need further follow-up or biopsy for confirmation.
+
+```python
+skin_df['dx_type'].value_counts().plot(kind='bar')
+```
+![dx_type_plot](https://user-images.githubusercontent.com/72849717/96358227-0f22b500-112f-11eb-9901-1026b4df151c.png)
+
