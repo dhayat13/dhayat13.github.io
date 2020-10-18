@@ -521,7 +521,7 @@ callbacks_list.append(TensorBoard(logdir, histogram_freq=1))
 ```
 
 
-# Step 14: Fitting the model
+# Step 16: Fitting the model
 In this step finally I fit the model into x_train, y_train. In this step I have choosen batch size of 128 and 100 epochs
 ```python
 # Fit the model
@@ -532,3 +532,180 @@ history = model.fit_generator(datagen.flow(x_train,y_train, batch_size=batch_siz
                               verbose = 1, steps_per_epoch=x_train.shape[0] // batch_size
                               , callbacks=callbacks_list)
 ```
+```python
+WARNING:tensorflow:From <ipython-input-45-e896df7a953c>:7: Model.fit_generator (from tensorflow.python.keras.engine.training) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please use Model.fit, which supports generators.
+Epoch 1/100
+ 1/50 [..............................] - ETA: 0s - loss: 1.8891 - accuracy: 0.2109WARNING:tensorflow:From /usr/local/lib/python3.6/dist-packages/tensorflow/python/ops/summary_ops_v2.py:1277: stop (from tensorflow.python.eager.profiler) is deprecated and will be removed after 2020-07-01.
+Instructions for updating:
+use `tf.profiler.experimental.stop` instead.
+ 2/50 [>.............................] - ETA: 3s - loss: 3.3039 - accuracy: 0.4297WARNING:tensorflow:Callbacks method `on_train_batch_end` is slow compared to the batch time (batch time: 0.0360s vs `on_train_batch_end` time: 0.1163s). Check your callbacks.
+50/50 [==============================] - ETA: 0s - loss: 1.2106 - accuracy: 0.6610
+Epoch 00001: val_accuracy improved from -inf to 0.66376, saving model to skincancer.h5
+50/50 [==============================] - 13s 264ms/step - loss: 1.2106 - accuracy: 0.6610 - val_loss: 1.0693 - val_accuracy: 0.6638
+Epoch 2/100
+50/50 [==============================] - ETA: 0s - loss: 0.9749 - accuracy: 0.6680
+Epoch 00002: val_accuracy improved from 0.66376 to 0.67561, saving model to skincancer.h5
+50/50 [==============================] - 13s 254ms/step - loss: 0.9749 - accuracy: 0.6680 - val_loss: 0.9938 - val_accuracy: 0.6756
+Epoch 3/100
+50/50 [==============================] - ETA: 0s - loss: 0.9403 - accuracy: 0.6711
+Epoch 00003: val_accuracy improved from 0.67561 to 0.68122, saving model to skincancer.h5
+50/50 [==============================] - 13s 263ms/step - loss: 0.9403 - accuracy: 0.6711 - val_loss: 0.9174 - val_accuracy: 0.6812
+Epoch 4/100
+50/50 [==============================] - ETA: 0s - loss: 0.9094 - accuracy: 0.6725
+Epoch 00004: val_accuracy improved from 0.68122 to 0.68372, saving model to skincancer.h5
+50/50 [==============================] - 13s 260ms/step - loss: 0.9094 - accuracy: 0.6725 - val_loss: 0.8886 - val_accuracy: 0.6837
+Epoch 5/100
+50/50 [==============================] - ETA: 0s - loss: 0.8779 - accuracy: 0.6806
+Epoch 00005: val_accuracy improved from 0.68372 to 0.68497, saving model to skincancer.h5
+
+```
+```python
+
+50/50 [==============================] - 13s 257ms/step - loss: 0.4126 - accuracy: 0.8449 - val_loss: 0.6987 - val_accuracy: 0.7742
+Epoch 96/100
+50/50 [==============================] - ETA: 0s - loss: 0.4553 - accuracy: 0.8282
+Epoch 00096: val_accuracy did not improve from 0.78665
+50/50 [==============================] - 13s 262ms/step - loss: 0.4553 - accuracy: 0.8282 - val_loss: 0.7150 - val_accuracy: 0.7785
+Epoch 97/100
+50/50 [==============================] - ETA: 0s - loss: 0.4009 - accuracy: 0.8468
+Epoch 00097: val_accuracy improved from 0.78665 to 0.79039, saving model to skincancer.h5
+50/50 [==============================] - 13s 261ms/step - loss: 0.4009 - accuracy: 0.8468 - val_loss: 0.6902 - val_accuracy: 0.7904
+Epoch 98/100
+50/50 [==============================] - ETA: 0s - loss: 0.3806 - accuracy: 0.8569
+Epoch 00098: val_accuracy did not improve from 0.79039
+50/50 [==============================] - 13s 257ms/step - loss: 0.3806 - accuracy: 0.8569 - val_loss: 0.7072 - val_accuracy: 0.7817
+Epoch 99/100
+50/50 [==============================] - ETA: 0s - loss: 0.3676 - accuracy: 0.8548
+Epoch 00099: val_accuracy did not improve from 0.79039
+50/50 [==============================] - 13s 256ms/step - loss: 0.3676 - accuracy: 0.8548 - val_loss: 0.7167 - val_accuracy: 0.7835
+Epoch 100/100
+50/50 [==============================] - ETA: 0s - loss: 0.4539 - accuracy: 0.8281
+Epoch 00100: val_accuracy did not improve from 0.79039
+50/50 [==============================] - 13s 258ms/step - loss: 0.4539 - accuracy: 0.8281 - val_loss: 0.7221 - val_accuracy: 0.7792
+```
+
+
+# Step 17: Model Evaluation
+In this step we will check the testing accuracy and validation accuracy of our model,plot confusion matrix and also check the missclassified images count of each type
+```python
+loss, accuracy = model.evaluate(x_test, y_test, verbose=1)
+loss_v, accuracy_v = model.evaluate(x_validate, y_validate, verbose=1)
+print("Validation: accuracy = %f  ;  loss_v = %f" % (accuracy_v, loss_v))
+print("Test: accuracy = %f  ;  loss = %f" % (accuracy, loss))
+model.save("model.h5")
+```
+```python
+63/63 [==============================] - 1s 8ms/step - loss: 0.7120 - accuracy: 0.7778
+51/51 [==============================] - 0s 7ms/step - loss: 0.7221 - accuracy: 0.7792
+Validation: accuracy = 0.779164  ;  loss_v = 0.722130
+Test: accuracy = 0.777833  ;  loss = 0.711978
+```
+```python
+plot_model_history(history)
+```
+![plot loss](https://user-images.githubusercontent.com/72849717/96359683-cb847700-113f-11eb-8677-0f82a9358c5a.png)
+
+
+```python
+# Function to plot confusion matrix    
+def plot_confusion_matrix(cm, classes,
+                          normalize=False,
+                          title='Confusion matrix',
+                          cmap=plt.cm.Blues):
+    """
+    This function prints and plots the confusion matrix.
+    Normalization can be applied by setting `normalize=True`.
+    """
+    plt.imshow(cm, interpolation='nearest', cmap=cmap)
+    plt.title(title)
+    plt.colorbar()
+    tick_marks = np.arange(len(classes))
+    plt.xticks(tick_marks, classes, rotation=45)
+    plt.yticks(tick_marks, classes)
+
+    if normalize:
+        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+
+    thresh = cm.max() / 2.
+    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+        plt.text(j, i, cm[i, j],
+                 horizontalalignment="center",
+                 color="white" if cm[i, j] > thresh else "black")
+
+    plt.tight_layout()
+    plt.ylabel('True label')
+    plt.xlabel('Predicted label')
+
+# Predict the values from the validation dataset
+Y_pred = model.predict(x_validate)
+# Convert predictions classes to one hot vectors 
+Y_pred_classes = np.argmax(Y_pred,axis = 1) 
+# Convert validation observations to one hot vectors
+Y_true = np.argmax(y_validate,axis = 1) 
+# compute the confusion matrix
+confusion_mtx = confusion_matrix(Y_true, Y_pred_classes)
+
+ 
+
+# plot the confusion matrix
+plot_confusion_matrix(confusion_mtx, classes = range(7)) 
+```
+![confs matrix](https://user-images.githubusercontent.com/72849717/96359712-11413f80-1140-11eb-8a41-5e125ac5799f.png)
+
+Now, lets see which category has much incorrect predictions
+```python
+label_frac_error = 1 - np.diag(confusion_mtx) / np.sum(confusion_mtx, axis=1)
+plt.bar(np.arange(7),label_frac_error)
+plt.xlabel('True Label')
+plt.ylabel('Fraction classified incorrectly')
+```
+![fractal plot](https://user-images.githubusercontent.com/72849717/96359728-48175580-1140-11eb-8b80-a77c4dc77e3f.png)
+
+# Tensorboard preview
+```python
+%load_ext tensorboard
+%tensorboard --logdir logs
+```
+![tensorboard](https://user-images.githubusercontent.com/72849717/96359776-e0153f00-1140-11eb-994e-6b0c674b718b.png)
+
+# Display Activation per Layer
+```python
+model_filename = "model.h5"
+
+model.load_weights(model_filename)
+model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
+```
+
+we made a function for showing that Display activation
+```python
+from keras.models import Model
+layer_outputs = [layer.output for layer in model.layers]
+activation_model = Model(inputs=model.input, outputs=layer_outputs)
+activations = activation_model.predict(x_train[10].reshape(1,75,100,3))
+ 
+def display_activation(activations, col_size, row_size, act_index): 
+    activation = activations[act_index]
+    activation_index=0
+    fig, ax = plt.subplots(row_size, col_size, figsize=(row_size*2.5,col_size*1.5))
+    for row in range(0,row_size):
+        for col in range(0,col_size):
+            ax[row][col].imshow(activation[0, :, :, activation_index], cmap=None)
+            activation_index += 1
+```
+```python
+display_activation(activations, 4, 8, 0) # we use index 0 to showing the 1st layer and the size is 32 neuron so we use 4 x 8
+```
+![layer 1](https://user-images.githubusercontent.com/72849717/96359859-b0b30200-1141-11eb-8a55-b2fc9f770cb3.png)
+
+
+```python
+display_activation(activations, 8, 8, 4) # we use index 4 to showing the 5th layer and the size is 32 neuron so we use 8 x 8
+```
+![layer 5](https://user-images.githubusercontent.com/72849717/96359900-04bde680-1142-11eb-8e79-d6201d4f9e74.png)
+
+# Conclusion
+It seems our model has maximum number of incorrect predictions for Basal cell carcinoma which has code 3, then second most missclassified type is Vascular lesions code 5 then Melanocytic nevi code 0 where as Actinic keratoses code 4 has least misclassified type.
+
+I think still this model is efficient in comparison to detection with human eyes having 79.039% accuracy
