@@ -192,5 +192,5 @@ Plot to see distribution of 7 different classes of cell type
 ```python
 fig, ax1 = plt.subplots(1, 1, figsize= (10, 5))
 skin_df['cell_type'].value_counts().plot(kind='bar', ax=ax1)
-![cell_type plot](https://github.com/dhayat13/dhayat13.github.io/blob/main/images_plot/gambar%20github%20pages/cell%20type%20plot.png)
+
 ```
